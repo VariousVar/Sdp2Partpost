@@ -3,6 +3,14 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        .status.green {
+            color: green;
+        }
+        .status.red {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <h1>Адресаты</h1>
