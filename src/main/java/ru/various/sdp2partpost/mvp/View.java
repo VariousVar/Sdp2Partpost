@@ -19,17 +19,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class View extends IView {
 	private JFrame main, result;
-    private JPanel buttonsPanel, textPanel, resultPanel, logPanel;
+    private JPanel buttonsPanel, textPanel, resultPanel;
+    private JEditorPane logPanel;
     private JMenuBar menu;
     private JButton quitButton, transferButton, findButton;
 	private JTextArea textArea;
@@ -95,8 +90,9 @@ public class View extends IView {
         resultPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 5));
         resultPanel.setBorder(border);
 
-	    logPanel = new JPanel(new BorderLayout(0, 10));
-	    logPanel.setBorder(border);
+        logPanel = new JEditorPane();
+        logPanel.setBorder(border);
+        logPanel.setEditable(false);
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.PAGE_AXIS));
@@ -217,8 +213,7 @@ public class View extends IView {
 
 	@Override
 	public void performView(Request request, List<FetchResult> fetchResult) {
-
-		logPanel.setVisible(true);
+        result.setVisible(true);
 	}
 
 	@Override
