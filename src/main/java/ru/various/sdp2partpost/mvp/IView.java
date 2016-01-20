@@ -13,5 +13,5 @@ public abstract class IView extends Observable implements Runnable {
 	public abstract String getInput();
 	public abstract void quit(int state);
 	public abstract void runSettingsWindow(PropertiesHolder propertiesHolder);
-	public abstract void performView(Request request, List<FetchResult> fetchResult);
+	public abstract void showLog(String text);
 }

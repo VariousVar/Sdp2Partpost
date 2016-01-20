@@ -3,7 +3,6 @@ package ru.various.sdp2partpost.mvp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.various.sdp2partpost.ColoredMessage;
-import ru.various.sdp2partpost.FetchResult;
 import ru.various.sdp2partpost.PropertiesHolder;
 import ru.various.sdp2partpost.SettingsWindow;
 import ru.various.sdp2partpost.enums.Request;
@@ -19,7 +18,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
-import java.util.List;
 
 public class View extends IView {
 	private JFrame main, result;
@@ -212,7 +210,9 @@ public class View extends IView {
     }
 
 	@Override
-	public void performView(Request request, List<FetchResult> fetchResult) {
+	public void showLog(String text) {
+        logPanel.setContentType("text/html");
+        logPanel.setText(text);
         result.setVisible(true);
 	}
 

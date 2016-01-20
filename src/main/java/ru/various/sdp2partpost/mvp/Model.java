@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import padeg.lib.Padeg;
+import ru.various.sdp2partpost.AddresseeDto;
 import ru.various.sdp2partpost.FetchResult;
 import ru.various.sdp2partpost.LogHelper;
 import ru.various.sdp2partpost.addressee.Address;
@@ -43,8 +44,8 @@ public class Model extends IModel {
     private ArrayList<Addressee> result = new ArrayList<>();
     private ArrayList<RawAddressee> invalid = new ArrayList<>();
 
-	private List<FetchResult> rawAddresseeFetching = new ArrayList<>();
-	private List<FetchResult> addresseeFetching = new ArrayList<>();
+	private List<AddresseeDto> rawAddresseeFetching = new ArrayList<>();
+	private List<AddresseeDto> addresseeFetching = new ArrayList<>();
 
 
 	private Logger mainLogger = LogManager.getLogger(Model.class);
@@ -114,14 +115,14 @@ public class Model extends IModel {
             try {
                 result.add(addresseeFactory.getAddresseeFromRaw(rawAddressee));
 	            LogHelper.logRawAddressee(rawAddressee);
-	            rawAddresseeFetching.add(new FetchResult(rawAddressee));
+	            rawAddresseeFetching.add(new AddresseeDto(rawAddressee));
             // rawAddressee can not be parsed to name or address or zipcode
             // and we throw an exception
             } catch (IncompleteDataException e) {
                 // rawAddressee was not saved - write an abnormal status
                 // and save into invalid list
 	            rawAddressee.setLoadStatus(e.getMessage());
-                rawAddresseeFetching.add(new FetchResult(rawAddressee, false, e.getMessage()));
+                rawAddresseeFetching.add(new AddresseeDto(rawAddressee, false, e.getMessage()));
 	            LogHelper.logRawAddressee(rawAddressee, e.getMessage());
             }
         }
@@ -190,12 +191,14 @@ public class Model extends IModel {
 	    for (;addresseeIterator.hasNext();) {
 		    Addressee addressee = addresseeIterator.next();
 
-		    if (imported.contains(addressee)) {
-			    addresseeIterator.remove();
-			    LogHelper.logAddressee(addressee, "уже существует");
+		    if (!imported.contains(addressee)) {
+                addresseeFetching.add(new AddresseeDto(addressee));
+                LogHelper.logAddressee(addressee);
 		    }
             else {
-			    LogHelper.logAddressee(addressee);
+                addresseeIterator.remove();
+                addresseeFetching.add(new AddresseeDto(addressee, false, "уже существует"));
+                LogHelper.logAddressee(addressee, "уже существует");
             }
 	    }
 
@@ -217,7 +220,7 @@ public class Model extends IModel {
 	}
 
 	@Override
-	public List<FetchResult> getFetchResult(Request request) {
+	public List<AddresseeDto> getFetchResult(Request request) {
 		switch (request) {
 			case FIND:
 				return rawAddresseeFetching;

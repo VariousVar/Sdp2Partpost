@@ -1,20 +1,23 @@
 package ru.various.sdp2partpost.mvp;
 
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.various.sdp2partpost.ColoredMessage;
-import ru.various.sdp2partpost.ColoredMessageFactory;
-import ru.various.sdp2partpost.FetchResult;
-import ru.various.sdp2partpost.PropertiesHolder;
+import ru.various.sdp2partpost.*;
 import ru.various.sdp2partpost.Util.AddresseeCountEnding;
 import ru.various.sdp2partpost.addressee.Addressee;
 import ru.various.sdp2partpost.enums.Result;
 import ru.various.sdp2partpost.enums.Request;
 import ru.various.sdp2partpost.enums.Source;
+import ru.various.sdp2partpost.freemarker.FreemarkerConfig;
+import ru.various.sdp2partpost.raw_addressee.RawAddressee;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.Observable;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *  Presenter part of MVP pattern.
@@ -87,11 +90,11 @@ public class Presenter extends IPresenter {
 	            break;
 
             case PERFORM_LOAD_LOG:
-				SwingUtilities.invokeLater(() -> view.performView(Request.FIND, model.getFetchResult(Request.FIND)));
+				SwingUtilities.invokeLater(() -> view.showLog(createLogAsHtml(Request.FIND)));
 	            break;
 
 	        case PERFORM_IMPORT_LOG:
-		        SwingUtilities.invokeLater(() -> view.performView(Request.IMPORT, model.getFetchResult(Request.IMPORT)));
+		        SwingUtilities.invokeLater(() -> view.showLog(createLogAsHtml(Request.IMPORT)));
 		        break;
 
             case UPDATE_CREDENTIALS:
@@ -110,7 +113,30 @@ public class Presenter extends IPresenter {
         }
     }
 
-	@Override
+    private String createLogAsHtml(Request request) {
+        List<AddresseeDto> fetchResult = model.getFetchResult(request);
+        String templateName = request == Request.FIND ? "load.ftl" : "save.ftl";
+
+        try {
+            Template template = FreemarkerConfig.getConfiguration().getTemplate(templateName);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("addresses", fetchResult);
+            StringWriter out = new StringWriter(fetchResult.size() * 100);
+            template.process(map, out);
+
+            return out.getBuffer().toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+
+
+        return "";
+    }
+
+    @Override
 	public void processResult(Result result) {
 		final String message;
 		List<Addressee> addressees;
