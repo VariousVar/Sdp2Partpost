@@ -17,13 +17,13 @@
 <#list addresses as addressee>
 <p>
     Имя: ${addressee.name}<br>
-    Адрес: ${addressee.adddress}<br>
+    Адрес: ${addressee.address}<br>
     Пол: ${addressee.gender}<br>
     Статус сохранения:
     <#if addressee.status == true>
         <span class="status.green">сохранен</span>
     <#else>
-        <span class="status.red">не сохранен</span>
+        <span class="status.red">не сохранен</span><br>
         <span>Причина: ${addressee.reason}</span>
     </#if>
 </p>

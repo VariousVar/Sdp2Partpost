@@ -32,7 +32,7 @@ public class AddresseeDto {
         this.name = addressee.getName();
         Address address = addressee.getAddress();
         this.address = address.getZipcode() + address.getPartialAddress();
-        this.gender = addressee.getGender() ? Gender.MALE.name() : Gender.FEMALE.name();
+        this.gender = addressee.getGender() ? "мужской" : "женский";
         this.status = status;
         this.reason = reason;
     }
