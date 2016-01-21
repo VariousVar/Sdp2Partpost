@@ -2,7 +2,7 @@ package ru.various.sdp2partpost.mvp;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.various.sdp2partpost.ColoredMessage;
+import ru.various.sdp2partpost.coloredmessage.ColoredMessage;
 import ru.various.sdp2partpost.PropertiesHolder;
 import ru.various.sdp2partpost.SettingsWindow;
 import ru.various.sdp2partpost.enums.Request;
@@ -10,14 +10,12 @@ import ru.various.sdp2partpost.enums.Request;
 import javax.swing.*;
 
 import javax.swing.border.Border;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Color;
 
 public class View extends IView {
 	private JFrame main, result;
@@ -29,7 +27,6 @@ public class View extends IView {
     private JTextField caseList;
     private JLabel resultLabel;
     private FontUIResource buttonFont, labelFont;
-    private ColorUIResource greenColor, redColor;
 
 	private static Logger logger = LogManager.getLogger(Model.class);
 
@@ -91,29 +88,22 @@ public class View extends IView {
         logPanel = new JEditorPane();
         logPanel.setBorder(border);
         logPanel.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(logPanel);
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.PAGE_AXIS));
         buttonsPanel.setBorder(border);
 
-
-        main.getContentPane().add(textPanel);
-        main.getContentPane().add(resultPanel);
-		main.getContentPane().add(buttonsPanel);
-
 		main.add(textPanel, BorderLayout.PAGE_START);
 		main.add(resultPanel, BorderLayout.CENTER);
 		main.add(buttonsPanel, BorderLayout.PAGE_END);
 
-	    result.getContentPane().add(logPanel);
-	    result.add(logPanel, BorderLayout.PAGE_START);
+	    result.add(scrollPane);
     }
 
     private void init_fonts() {
         buttonFont = new FontUIResource("Tahoma", Font.PLAIN, 16);
         labelFont = new FontUIResource("Tahoma", Font.BOLD, 16);
-        greenColor = new ColorUIResource(0, 153, 51);
-        redColor = new ColorUIResource(Color.RED);
     }
 
     private void init_fields() {

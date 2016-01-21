@@ -1,4 +1,4 @@
-package ru.various.sdp2partpost;
+package ru.various.sdp2partpost.coloredmessage;
 
 import ru.various.sdp2partpost.enums.Result;
 

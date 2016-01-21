@@ -7,17 +7,18 @@ import org.apache.logging.log4j.Logger;
 import ru.various.sdp2partpost.*;
 import ru.various.sdp2partpost.Util.AddresseeCountEnding;
 import ru.various.sdp2partpost.addressee.Addressee;
+import ru.various.sdp2partpost.coloredmessage.ColoredMessage;
+import ru.various.sdp2partpost.coloredmessage.ColoredMessageFactory;
 import ru.various.sdp2partpost.enums.Result;
 import ru.various.sdp2partpost.enums.Request;
 import ru.various.sdp2partpost.enums.Source;
 import ru.various.sdp2partpost.freemarker.FreemarkerConfig;
-import ru.various.sdp2partpost.raw_addressee.RawAddressee;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
 
 /**
  *  Presenter part of MVP pattern.
@@ -126,12 +127,9 @@ public class Presenter extends IPresenter {
             template.process(map, out);
 
             return out.getBuffer().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TemplateException e) {
-            e.printStackTrace();
+        } catch (IOException | TemplateException e) {
+            logger.catching(e);
         }
-
 
         return "";
     }

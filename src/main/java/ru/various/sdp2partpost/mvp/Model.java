@@ -6,9 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import padeg.lib.Padeg;
 import ru.various.sdp2partpost.AddresseeDto;
-import ru.various.sdp2partpost.FetchResult;
 import ru.various.sdp2partpost.LogHelper;
-import ru.various.sdp2partpost.addressee.Address;
 import ru.various.sdp2partpost.addressee.Addressee;
 import ru.various.sdp2partpost.addressee.AddresseeFactory;
 import ru.various.sdp2partpost.cases.CaseContainer;
@@ -72,9 +70,9 @@ public class Model extends IModel {
 		rawAddresseeFetching.clear();
 		addresseeFetching.clear();
 
-        AddresseeDAO addresseeDAO = null;
-        Source dbSource = null;
-        ArrayList<RawAddressee> rawAddressees = null;
+        AddresseeDAO addresseeDAO;
+        Source dbSource;
+        ArrayList<RawAddressee> rawAddressees;
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
                 "jdbc:firebirdsql://" + conProperties.getProperty("path", ""),

@@ -1,7 +1,6 @@
 package ru.various.sdp2partpost.mvp;
 
 import ru.various.sdp2partpost.AddresseeDto;
-import ru.various.sdp2partpost.FetchResult;
 import ru.various.sdp2partpost.addressee.Addressee;
 import ru.various.sdp2partpost.enums.Request;
 
