@@ -200,7 +200,7 @@ public class Model extends IModel {
             }
 	    }
 
-	    addresseeDAO.insert(result);
+	    addresseeDAO.insert(result, (argument, valid, reason) -> addresseeFetching.add(new AddresseeDto(argument, valid, reason)));
 	    mainLogger.info("Import to " + dbSource + ". Saved " + result.size() + " valid addresses");
 
         setChanged();

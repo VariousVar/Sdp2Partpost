@@ -1,6 +1,7 @@
 package ru.various.sdp2partpost.raw_addressee;
 
 import org.apache.commons.lang3.text.StrSubstitutor;
+import ru.various.sdp2partpost.LoggingCallback;
 import ru.various.sdp2partpost.addressee.Addressee;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class SDPAddresseeDAO extends AbstractAddresseeDAO {
 	 * @param addresses
 	 */
 	@Override
-	public int insert(List<Addressee> addresses) {
+	public int insert(List<Addressee> addresses, LoggingCallback<Addressee> callback) {
 		throw new UnsupportedOperationException();
 	}
 

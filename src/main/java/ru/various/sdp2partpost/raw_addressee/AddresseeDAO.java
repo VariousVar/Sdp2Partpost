@@ -1,5 +1,6 @@
 package ru.various.sdp2partpost.raw_addressee;
 
+import ru.various.sdp2partpost.LoggingCallback;
 import ru.various.sdp2partpost.addressee.Addressee;
 
 import javax.sql.DataSource;
@@ -29,5 +30,5 @@ public interface AddresseeDAO {
 	 *
 	 * @param addresses
 	 */
-	public int insert(List<Addressee> addresses);
+	public int insert(List<Addressee> addresses, LoggingCallback<Addressee> callback);
 }

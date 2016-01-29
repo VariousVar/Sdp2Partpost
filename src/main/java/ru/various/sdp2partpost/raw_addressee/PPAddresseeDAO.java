@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
+import ru.various.sdp2partpost.LoggingCallback;
 import ru.various.sdp2partpost.addressee.Addressee;
 
 import java.sql.*;
@@ -35,7 +36,7 @@ public class PPAddresseeDAO extends AbstractAddresseeDAO {
 	 * @param addresses
 	 */
 	@Override
-	public int insert(List<Addressee> addresses) {
+	public int insert(List<Addressee> addresses, LoggingCallback<Addressee> callback) {
 
 		if (addresses.size() == 0)
 			return 0;
@@ -63,6 +64,7 @@ public class PPAddresseeDAO extends AbstractAddresseeDAO {
 
 			if (region == null && area == null && city == null) {
 					iterator.remove();
+                    callback.inform(addressee, false, "Индекс не найден в базе");
 					continue;
 			}
 
@@ -72,6 +74,7 @@ public class PPAddresseeDAO extends AbstractAddresseeDAO {
 					region, area, city,
 					addressee.getAddress().getPartialAddress(), ADDR_FLAG
 			);
+            callback.inform(addressee, true, "");
 
 			counter++;
 		}

@@ -31,7 +31,7 @@ public class AddresseeDto {
     public AddresseeDto(Addressee addressee, boolean status, String reason) {
         this.name = addressee.getName();
         Address address = addressee.getAddress();
-        this.address = address.getZipcode() + address.getPartialAddress();
+        this.address = address.getZipcode()+ ", " + address.getPartialAddress();
         this.gender = addressee.getGender() ? "мужской" : "женский";
         this.status = status;
         this.reason = reason;
